@@ -1,0 +1,181 @@
+#container {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) 5%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+    transition: var(--transition-base);
+}
+
+#shopName {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+#shopName a {
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+#shopName .nest {
+    color: var(--accent);
+    font-style: italic;
+    font-family: inherit;
+}
+
+#collection {
+    display: flex;
+    gap: var(--spacing-xl);
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+}
+
+#collection a {
+    color: var(--text-secondary);
+    position: relative;
+    padding: 4px 0;
+}
+
+#collection a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: var(--transition-base);
+}
+
+#collection a:hover {
+    color: var(--accent);
+}
+
+#collection a:hover::after {
+    width: 100%;
+}
+
+#search {
+    flex: 0 1 400px;
+    margin: 0 var(--spacing-xl);
+    position: relative;
+}
+
+#search form {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+#input {
+    width: 100%;
+    background-color: var(--bg-main);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 10px 16px 10px 44px;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    transition: var(--transition-base);
+}
+
+#input:focus {
+    background-color: var(--bg-surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+}
+
+#user {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+#user a {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+}
+
+#user a:hover {
+    background-color: var(--bg-main);
+    color: var(--accent);
+}
+
+#badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--bg-surface);
+}
+
+.userIcon {
+    font-size: 1.5rem;
+}
+
+/* ----------------------------- MEDIA QUERY --------------------------- */
+
+@media (max-width: 1200px) {
+    #collection {
+        gap: var(--spacing-lg);
+    }
+    #search {
+        margin: 0 var(--spacing-lg);
+    }
+}
+
+@media (max-width: 1024px) {
+    #collection {
+        display: none; /* Mobile menu needed but out of scope for pure CSS fix without JS changes, or could be revamped */
+    }
+}
+
+@media (max-width: 768px) {
+    #search {
+        display: none;
+    }
+    #shopName {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #container {
+        padding: var(--spacing-sm) 4%;
+    }
+    #shopName {
+        font-size: 1.25rem;
+    }
+}

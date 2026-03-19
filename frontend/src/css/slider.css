@@ -1,0 +1,36 @@
+#containerSlider {
+    width: 100%;
+    /* max-width: 1400px; */
+    margin: 0 auto;
+    /* padding: var(--spacing-md) 5%; */
+}
+
+#containerSlider .slick-slider {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+#containerSlider img {
+    width: 100%;
+
+    object-fit: cover;
+    display: block;
+}
+
+#slidingImage {
+    width: 100%;
+
+}
+
+@media (max-width: 1024px) {
+    #containerSlider img {
+        aspect-ratio: 16/9;
+    }
+}
+
+@media (max-width: 640px) {
+    #containerSlider img {
+        aspect-ratio: 4/3;
+    }
+}

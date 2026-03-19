@@ -1,0 +1,95 @@
+#containerFooter {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--text-on-accent);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 10%;
+    box-sizing: border-box;
+}
+
+#containerFooter div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+#containerFooter h3 {
+    color: var(--text-on-accent);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.9;
+}
+
+#containerFooter p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin: 0;
+    transition: var(--transition-fast);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+#containerFooter p:hover {
+    color: var(--accent-light);
+    transform: translateX(4px);
+}
+
+#webFooter {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--primary);
+    padding: var(--spacing-lg) 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+#credit {
+    background-color: var(--primary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-align: left;
+}
+
+#credit a {
+    color: var(--text-on-accent);
+    font-weight: 500;
+}
+
+#credit a:hover {
+    color: var(--accent-light);
+}
+
+/* ----------------------------- MEDIA QUERY --------------------------- */
+
+@media (max-width: 1024px) {
+    #containerFooter {
+        padding: var(--spacing-xl) 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    #containerFooter {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    #webFooter {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    #containerFooter {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    #containerFooter p:hover {
+        transform: none;
+    }
+}
