@@ -29,7 +29,7 @@ const Admin = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
       const data = await response.json();
       const sanitized = data.map(p => (!p.image || p.image.includes("via.placeholder.com")) ? { ...p, image: PLACEHOLDER_IMAGE } : p);
       setProducts(sanitized);
@@ -47,7 +47,7 @@ const Admin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = isEditing ? `http://localhost:5000/api/update/${currentProductId}` : 'http://localhost:5000/api/products';
+    const url = isEditing ? `${import.meta.env.VITE_API_URL}/api/update/${currentProductId}` : `${import.meta.env.VITE_API_URL}/api/products`;
     const method = isEditing ? 'PUT' : 'POST';
 
     try {
@@ -88,7 +88,7 @@ const Admin = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/delete/${id}`, { method: 'DELETE' });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/delete/${id}`, { method: 'DELETE' });
         if (response.ok) {
           alert('Product deleted successfully');
           fetchProducts();

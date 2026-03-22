@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/cart/${userId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${userId}`);
         if (res.ok) {
             const data = await res.json();
             setCartItems(sanitizeCartItems(data.items));
@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
   // Sync with Backend whenever cartItems changes
   const syncToBackend = async (updatedItems) => {
     try {
-        await fetch(`http://localhost:5000/api/cart/${userId}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${userId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items: updatedItems })

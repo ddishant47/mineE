@@ -29,7 +29,7 @@ const Cart = () => {
 
   useEffect(() => {
     setProductsLoading(true);
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
           setProducts(sanitizeProducts(data));
@@ -81,7 +81,7 @@ const Cart = () => {
         totalAmount
       };
 
-      const res = await fetch('http://localhost:5000/api/checkout', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)
