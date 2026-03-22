@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../css/footer.css';
 
 const Footer = () => {
@@ -9,15 +10,14 @@ const Footer = () => {
 
                     <div id="webFooter">
                         <h3> Online Store </h3>
-                        <p><a href="/?search=mens+clothing" style={{ color: 'inherit', textDecoration: 'none' }}> men clothing </a></p>
-                        <p><a href="/?search=women+clothing" style={{ color: 'inherit', textDecoration: 'none' }}> women clothing </a></p>
-                        <p><a href="/?search=mens+clothing" style={{ color: 'inherit', textDecoration: 'none' }}> men accessories </a></p>
-                        <p><a href="/?search=women+clothing" style={{ color: 'inherit', textDecoration: 'none' }}> women accessories </a></p>
-                        <p><a href="/?search=house+decor" style={{ color: 'inherit', textDecoration: 'none' }}> home decor </a></p>
+                        <p><Link to="/?search=mens clothing"> men clothing </Link></p>
+                        <p><Link to="/?search=women clothing"> women clothing </Link></p>
+                        <p><Link to="/?search=accessories"> accessories </Link></p>
+                        <p><Link to="/?search=home decor"> home decor </Link></p>
                     </div>
                     <div id="webFooter">
                         <h3> Helpful link </h3>
-                        <p><a href="/" style={{ color: 'inherit', textDecoration: 'none' }}> Home </a></p>
+                        <p><Link to="/"> Home </Link></p>
                         <p> About </p>
                         <p> Contact </p>
                     </div>

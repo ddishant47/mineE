@@ -6,6 +6,9 @@ require("dotenv").config();
 
 
 const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -21,6 +24,9 @@ app.get("/", (req,res)=>{
 });
 
 app.use("/api", productRoutes);
+app.use("/api", orderRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", authRoutes);
 
 app.listen(5000 ,() =>{
     console.log("server started on port 5000");

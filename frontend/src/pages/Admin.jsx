@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../css/admin.css';
+
+const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-family='sans-serif' font-size='10' fill='%2394a3b8'%3ENO IMAGE%3C/text%3E%3C/svg%3E";
 
 const Admin = () => {
   const [products, setProducts] = useState([]);
@@ -16,6 +20,9 @@ const Admin = () => {
     stock: ''
   });
 
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -24,7 +31,8 @@ const Admin = () => {
     try {
       const response = await fetch('http://localhost:5000/api/products');
       const data = await response.json();
-      setProducts(data);
+      const sanitized = data.map(p => (!p.image || p.image.includes("via.placeholder.com")) ? { ...p, image: PLACEHOLDER_IMAGE } : p);
+      setProducts(sanitized);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -34,26 +42,18 @@ const Admin = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = isEditing
-      ? `http://localhost:5000/api/update/${currentProductId}`
-      : 'http://localhost:5000/api/products';
-
+    const url = isEditing ? `http://localhost:5000/api/update/${currentProductId}` : 'http://localhost:5000/api/products';
     const method = isEditing ? 'PUT' : 'POST';
 
     try {
       const response = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
 
@@ -82,16 +82,13 @@ const Admin = () => {
       category: product.category || '',
       stock: product.stock || ''
     });
-    window.scrollTo({ top: 100, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/delete/${id}`, {
-          method: 'DELETE'
-        });
-
+        const response = await fetch(`http://localhost:5000/api/delete/${id}`, { method: 'DELETE' });
         if (response.ok) {
           alert('Product deleted successfully');
           fetchProducts();
@@ -105,91 +102,58 @@ const Admin = () => {
   };
 
   const resetForm = () => {
-    setFormData({
-      name: '',
-      price: '',
-      description: '',
-      image: '',
-      category: '',
-      stock: ''
-    });
+    setFormData({ name: '', price: '', description: '', image: '', category: '', stock: '' });
     setIsEditing(false);
     setCurrentProductId(null);
   };
 
-  if (loading) return <div className="admin-container">Loading...</div>;
+  const handleLogout = () => {
+      logout();
+      navigate('/login');
+  };
+
+  if (loading) return <div className="admin-container">Loading Dashboard...</div>;
 
   return (
     <div className="admin-container">
-      <div className="admin-header">
-        <h1>Admin Dashboard</h1>
-        <p>Manage your store products</p>
-      </div>
+      <header className="admin-header">
+        <div className="admin-title-row">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Overview and Content Management</p>
+            </div>
+            <button onClick={handleLogout} className="logout-btn">
+                🚪 Log Out
+            </button>
+        </div>
+      </header>
 
-      <div className="admin-section">
-        <h2>{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+      <section className="admin-section">
+        <h2>{isEditing ? '📝 Edit Product' : '➕ Add New Product'}</h2>
         <form className="product-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Product Name*</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              placeholder="e.g. Premium Coffee Beans"
-            />
+            <input type="text" name="name" value={formData.name} onChange={handleInputChange} required placeholder="e.g. Premium Coffee Beans" />
           </div>
           <div className="form-group">
-            <label>Price ($)*</label>
-            <input
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleInputChange}
-              required
-              placeholder="0.00"
-            />
+            <label>Price (₹)*</label>
+            <input type="number" name="price" value={formData.price} onChange={handleInputChange} required placeholder="0.00" />
           </div>
           <div className="form-group">
             <label>Category</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-              placeholder="e.g. Beverages"
-            />
+            <input type="text" name="category" value={formData.category} onChange={handleInputChange} placeholder="e.g. Beverages" />
           </div>
           <div className="form-group">
             <label>Stock Quantity</label>
-            <input
-              type="number"
-              name="stock"
-              value={formData.stock}
-              onChange={handleInputChange}
-              placeholder="0"
-            />
+            <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} placeholder="0" />
           </div>
-          <div className="form-group">
+          <div className="form-group" style={{ gridColumn: 'span 2' }}>
             <label>Image URL*</label>
-            <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleInputChange}
-              required
-              placeholder="https://example.com/image.jpg"
-            />
+            <input type="text" name="image" value={formData.image} onChange={handleInputChange} required placeholder="https://example.com/image.jpg" />
           </div>
-          <div className="form-group">
+          <div className="form-group full-width">
             <label>Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              placeholder="Enter product details..."
-            />
+            <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Enter detailed product description..." />
           </div>
           <div className="form-actions">
             {isEditing && (
@@ -202,15 +166,15 @@ const Admin = () => {
             </button>
           </div>
         </form>
-      </div>
+      </section>
 
-      <div className="admin-section">
-        <h2>All Products ({products.length})</h2>
+      <section className="admin-section">
+        <h2>📦 Inventory List ({products.length})</h2>
         <div className="product-table-wrapper">
           <table className="product-table">
             <thead>
               <tr>
-                <th>Image</th>
+                <th>Preview</th>
                 <th>Name</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -222,34 +186,22 @@ const Admin = () => {
               {products.map((product) => (
                 <tr key={product._id}>
                   <td>
-                    <img src={product.image} alt={product.name} className="product-img-mini" />
+                    <img src={product.image} alt={product.name} className="product-img-mini" onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }} />
                   </td>
-                  <td>{product.name}</td>
+                  <td><strong>{product.name}</strong></td>
                   <td>{product.category || 'N/A'}</td>
-                  <td>${product.price}</td>
-                  <td>{product.stock || 0}</td>
+                  <td className="price-cell">₹{product.price.toLocaleString()}</td>
+                  <td><span className="stock-badge">{product.stock || 0} in stock</span></td>
                   <td className="actions-cell">
-                    <button
-                      className="icon-btn"
-                      onClick={() => handleEdit(product)}
-                      title="Edit"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      className="icon-btn delete"
-                      onClick={() => handleDelete(product._id)}
-                      title="Delete"
-                    >
-                      🗑️
-                    </button>
+                    <button className="icon-btn" onClick={() => handleEdit(product)} title="Edit">✏️</button>
+                    <button className="icon-btn delete" onClick={() => handleDelete(product._id)} title="Delete">🗑️</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

@@ -3,8 +3,25 @@ const router = express.Router();
 const Product = require("../models/Product");
 
 router.get("/products", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const { search } = req.query;
+    let dbQuery = {};
+    
+    if (search) {
+      dbQuery = {
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { category: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } }
+        ]
+      };
+    }
+    
+    const products = await Product.find(dbQuery);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 router.post("/products", async (req, res) => {
@@ -34,7 +51,7 @@ router.put("/update/:id", async (req, res) => {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!updatedProduct) {

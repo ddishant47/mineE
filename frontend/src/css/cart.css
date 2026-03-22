@@ -150,3 +150,90 @@
         height: 200px;
     }
 }
+
+/* Skeleton Styles */
+.cart-skeleton-box {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.skeleton-img-mini {
+    width: 100px;
+    height: 120px;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--radius-md);
+}
+
+.skeleton-details-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skeleton-line-mini {
+    height: 1.25rem;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+.skeleton-line-mini.title { width: 60%; }
+.skeleton-line-mini.price { width: 30%; height: 1.5rem; }
+
+/* Empty Cart Design Enhancement */
+.empty-cart-container {
+    padding: 80px 20px;
+    text-align: center;
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 2px dashed #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    grid-column: 1 / -1; /* Take full width if in grid */
+}
+
+.empty-cart-icon {
+    font-size: 5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+}
+
+.empty-cart-container h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.empty-cart-container p {
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    max-width: 400px;
+}
+
+.continue-shopping-btn {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition-base);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+    margin-top: 1rem;
+}
+
+.continue-shopping-btn:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.3);
+}
